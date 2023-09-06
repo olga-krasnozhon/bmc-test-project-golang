@@ -1,0 +1,139 @@
+definitions:
+  gin.H:
+    additionalProperties: {}
+    type: object
+  model.PassengerInfo:
+    properties:
+      age:
+        type: number
+      cabin:
+        type: string
+      embarked:
+        type: string
+      fare:
+        type: number
+      name:
+        type: string
+      pClass:
+        type: integer
+      parch:
+        type: integer
+      passenger_id:
+        type: string
+      sex:
+        type: string
+      sib_sb:
+        type: integer
+      survived:
+        type: integer
+      ticket:
+        type: string
+    type: object
+  model.PassengerInfoDTO:
+    properties:
+      age:
+        type: number
+      cabin:
+        type: string
+      embarked:
+        type: string
+      fare:
+        type: number
+      name:
+        type: string
+      pClass:
+        type: integer
+      parch:
+        type: integer
+      passengerId:
+        type: string
+      sex:
+        type: string
+      sibSb:
+        type: integer
+      survived:
+        type: integer
+      ticket:
+        type: string
+    type: object
+info:
+  version: v1
+  title: BMC Test Golang Service
+  contact: {}
+paths:
+  /passenger/attributes:
+    get:
+      description: Get passenger information filtered by specific attributes.
+      operationId: getPassengerInfoByAttributes
+      parameters:
+      - description: Passenger ID
+        in: query
+        name: passengerId
+        required: true
+        type: string
+      - description: Comma-separated list of attribute names
+        in: query
+        name: attributes
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Passenger information
+          schema:
+            $ref: '#/definitions/model.PassengerInfoDTO'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/gin.H'
+  /passengers/v1/info:
+    get:
+      description: Get a list of all passenger information.
+      operationId: getAllPassengerInfo
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.PassengerInfo'
+            type: array
+  /passengers/v1/info/{passengerId}:
+    get:
+      description: Get Passenger Info by passenger ID
+      operationId: GetPassengerInfo
+      parameters:
+      - description: Passenger ID
+        in: path
+        name: passengerId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Passenger Info
+          schema:
+            $ref: '#/definitions/model.PassengerInfo'
+        "404":
+          description: Passenger not found
+          schema:
+            $ref: '#/definitions/gin.H'
+  /passengers/v1/info/fares/histogram:
+    get:
+      description: Get a histogram of fare prices with percentiles.
+      operationId: getFaresHistogram
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: html
+          schema:
+            type: string
+swagger: "2.0"

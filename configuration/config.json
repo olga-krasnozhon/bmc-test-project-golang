@@ -1,0 +1,12 @@
+{
+  "UseCSV": false,
+  "UseSQLite": true,
+  "server_port": 8080,
+  "database": {
+    "driver": "sqlite",
+    "connection_string": "mydatabase.db"
+  },
+  "api_key": "bmc-test",
+  "debug_mode": false
+}
+
